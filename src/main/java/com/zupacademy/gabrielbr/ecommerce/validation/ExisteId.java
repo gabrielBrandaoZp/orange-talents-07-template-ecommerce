@@ -5,10 +5,11 @@ import javax.validation.Payload;
 import java.lang.annotation.*;
 
 @Documented
-@Constraint(validatedBy = ValidadorCampoUnico.class)
+@Constraint(validatedBy = ValidadorExisteId.class)
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.FIELD })
-public @interface CampoUnico {
+public @interface ExisteId {
+
     public String message() default "Validation Constraint Error";
 
     public Class<?>[] groups() default {};
