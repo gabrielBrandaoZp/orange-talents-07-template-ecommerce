@@ -2,6 +2,7 @@ package com.zupacademy.gabrielbr.ecommerce.controller.request;
 
 import com.zupacademy.gabrielbr.ecommerce.model.Usuario;
 import com.zupacademy.gabrielbr.ecommerce.model.util.SenhaLimpa;
+import com.zupacademy.gabrielbr.ecommerce.validation.CampoUnico;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -12,6 +13,7 @@ public class CadastroUsuarioRequest {
 
     @NotBlank
     @Email
+    @CampoUnico(domainClass = Usuario.class, fieldName = "email")
     private String email;
 
     @NotBlank
