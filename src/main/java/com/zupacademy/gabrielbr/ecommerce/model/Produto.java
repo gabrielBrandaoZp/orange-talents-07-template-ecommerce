@@ -53,9 +53,6 @@ public class Produto {
         Assert.isTrue(this.caracteristicas.size() >= 3, "Todo produto precisa ter no mínimo 3 características");
     }
 
-    public Usuario getDonoProduto() {
-        return donoProduto;
-    }
 
     public void associaImagens(Set<String> links) {
         links.forEach(link -> this.imagens.add(new ImagemProduto(link, this)));
