@@ -6,9 +6,7 @@ import io.jsonwebtoken.lang.Assert;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class Produto {
@@ -29,10 +27,16 @@ public class Produto {
     @ManyToOne
     private Categoria categoria;
 
+    @OneToMany(mappedBy = "produto", cascade = CascadeType.MERGE)
+    private Set<ImagemProduto> imagens = new HashSet<>();
+
     private String nome;
     private BigDecimal valor;
     private Integer quantidade;
     private LocalDateTime dataCriacao;
+
+    @Deprecated
+    public Produto() {}
 
     public Produto(Set<CadastraCaracteristicaRequest> caracteristicaRequests, String descricao, Usuario donoProduto, String nome, BigDecimal valor,
                    Integer quantidade, Categoria categoria) {
@@ -47,6 +51,18 @@ public class Produto {
         this.dataCriacao = LocalDateTime.now();
 
         Assert.isTrue(this.caracteristicas.size() >= 3, "Todo produto precisa ter no mínimo 3 características");
+    }
+
+    public Usuario getDonoProduto() {
+        return donoProduto;
+    }
+
+    public void associaImagens(Set<String> links) {
+        links.forEach(link -> this.imagens.add(new ImagemProduto(link, this)));
+    }
+
+    public boolean pertenceAoDono(Usuario possivelDono) {
+        return this.donoProduto.equals(possivelDono);
     }
 
     @Override
