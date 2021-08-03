@@ -16,6 +16,8 @@ public @interface ExisteId {
 
     public Class<? extends Payload>[] payload() default{};
 
+    public boolean allowNull() default false;
+
     String fieldName();
 
     Class<?> domainClass();

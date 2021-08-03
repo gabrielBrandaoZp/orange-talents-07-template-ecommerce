@@ -18,7 +18,7 @@ public class CadastroCategoriaRequest {
 
     @JsonProperty(value = "categoriaMae")
     @Positive
-    @ExisteId(domainClass = Categoria.class, fieldName = "id")
+    @ExisteId(domainClass = Categoria.class, fieldName = "id", allowNull = true)
     private Long categoriaMaeId;
 
     public CadastroCategoriaRequest(String nome, Long categoriaMaeId) {
@@ -30,10 +30,9 @@ public class CadastroCategoriaRequest {
         Categoria categoria = new Categoria(nome);
 
         if (categoriaMaeId != null) {
-           Optional<Categoria> categoriaMaeObj = categoriaRepository.findById(categoriaMaeId);
-
-           //Already validated by ExisteId annotation if categoriaMaeId is not null
-           categoria.setCategoriaMae(categoriaMaeObj.get());
+            Optional<Categoria> categoriaMaeObj = categoriaRepository.findById(categoriaMaeId);
+            if (categoriaMaeObj.isPresent()) categoria.setCategoriaMae(categoriaMaeObj.get());
+            else return Optional.empty();
         }
 
         return Optional.of(categoria);
