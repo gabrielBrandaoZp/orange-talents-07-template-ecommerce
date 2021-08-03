@@ -31,8 +31,9 @@ public class CadastroCategoriaRequest {
 
         if (categoriaMaeId != null) {
             Optional<Categoria> categoriaMaeObj = categoriaRepository.findById(categoriaMaeId);
-            if (categoriaMaeObj.isPresent()) categoria.setCategoriaMae(categoriaMaeObj.get());
-            else return Optional.empty();
+
+            //Already validated by ExisteId annotation if categoriaMaeId is not null
+            categoria.setCategoriaMae(categoriaMaeObj.get());
         }
 
         return Optional.of(categoria);
