@@ -62,6 +62,10 @@ public class Produto {
         return this.donoProduto.equals(possivelDono);
     }
 
+    public Usuario getDonoProduto() {
+        return donoProduto;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

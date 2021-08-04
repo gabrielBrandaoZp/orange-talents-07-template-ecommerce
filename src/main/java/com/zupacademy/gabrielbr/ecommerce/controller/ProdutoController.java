@@ -1,6 +1,6 @@
 package com.zupacademy.gabrielbr.ecommerce.controller;
 
-import com.zupacademy.gabrielbr.ecommerce.controller.component.UploaderFake;
+import com.zupacademy.gabrielbr.ecommerce.controller.component.Uploader;
 import com.zupacademy.gabrielbr.ecommerce.controller.request.CadastraImagemProdutoRequest;
 import com.zupacademy.gabrielbr.ecommerce.controller.request.CadastraOpiniaoRequest;
 import com.zupacademy.gabrielbr.ecommerce.controller.request.CadastroProdutoRequest;
@@ -26,12 +26,12 @@ public class ProdutoController {
     private AutenticacaoService autenticacaoService;
     private ProdutoRepository produtoRepository;
     private CategoriaRepository categoriaRepository;
-    private UploaderFake uploaderFake;
+    private Uploader uploaderFake;
     private OpiniaoRepository opiniaoRepository;
 
 
     public ProdutoController(AutenticacaoService autenticacaoService, ProdutoRepository produtoRepository, CategoriaRepository categoriaRepository,
-                             UploaderFake uploaderFake, OpiniaoRepository opiniaoRepository) {
+                             Uploader uploaderFake, OpiniaoRepository opiniaoRepository) {
         this.autenticacaoService = autenticacaoService;
         this.produtoRepository = produtoRepository;
         this.categoriaRepository = categoriaRepository;
