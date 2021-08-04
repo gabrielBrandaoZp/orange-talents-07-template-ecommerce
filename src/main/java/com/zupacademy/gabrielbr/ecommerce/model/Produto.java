@@ -1,12 +1,15 @@
 package com.zupacademy.gabrielbr.ecommerce.model;
 
 import com.zupacademy.gabrielbr.ecommerce.controller.request.CadastraCaracteristicaRequest;
+import com.zupacademy.gabrielbr.ecommerce.model.util.Opinioes;
 import io.jsonwebtoken.lang.Assert;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Entity
 public class Produto {
@@ -29,6 +32,13 @@ public class Produto {
 
     @OneToMany(mappedBy = "produto", cascade = CascadeType.MERGE)
     private Set<ImagemProduto> imagens = new HashSet<>();
+
+    @OneToMany(mappedBy = "produto")
+    @OrderBy("titulo asc")
+    private SortedSet<Pergunta> perguntas = new TreeSet<>();
+
+    @OneToMany(mappedBy = "produto")
+    private Set<Opiniao> opinioes = new HashSet<>();
 
     private String nome;
     private BigDecimal valor;
@@ -58,12 +68,51 @@ public class Produto {
         links.forEach(link -> this.imagens.add(new ImagemProduto(link, this)));
     }
 
+    public List<String> linksImages() {
+        List<String> linkImagens = new ArrayList<>();
+        imagens.forEach(imagem -> linkImagens.add(imagem.getUrl()));
+        return linkImagens;
+    }
+
     public boolean pertenceAoDono(Usuario possivelDono) {
         return this.donoProduto.equals(possivelDono);
     }
 
     public Usuario getDonoProduto() {
         return donoProduto;
+    }
+
+    public <T> Set<T> mapearCaracteristicas(Function<CaracteristicaProduto, T> funcaoMapeadora) {
+        return this.caracteristicas
+                .stream()
+                .map(funcaoMapeadora)
+                .collect(Collectors.toSet());
+    }
+
+    public <T> Set<T> mapearImagens(Function<ImagemProduto, T> funcaoMapeadora) {
+        return this.imagens
+                .stream()
+                .map(funcaoMapeadora)
+                .collect(Collectors.toSet());
+    }
+
+    public <T extends Comparable<T>> SortedSet<T> mapearPerguntas(Function<Pergunta, T> funcaoMapeadora) {
+        return this.perguntas
+                .stream()
+                .map(funcaoMapeadora)
+                .collect(Collectors.toCollection(() -> new TreeSet<>()));
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public BigDecimal getValor() {
+        return valor;
+    }
+
+    public String getDescricao() {
+        return descricao;
     }
 
     @Override
@@ -77,5 +126,9 @@ public class Produto {
     @Override
     public int hashCode() {
         return Objects.hash(nome);
+    }
+
+    public Opinioes getOpinioes() {
+        return new Opinioes(this.opinioes);
     }
 }

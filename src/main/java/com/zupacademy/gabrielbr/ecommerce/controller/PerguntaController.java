@@ -2,7 +2,7 @@ package com.zupacademy.gabrielbr.ecommerce.controller;
 
 import com.zupacademy.gabrielbr.ecommerce.controller.component.Emails;
 import com.zupacademy.gabrielbr.ecommerce.controller.request.CadastraPerguntaRequest;
-import com.zupacademy.gabrielbr.ecommerce.controller.response.PerguntaResponse;
+import com.zupacademy.gabrielbr.ecommerce.controller.response.CadastraPerguntaResponse;
 import com.zupacademy.gabrielbr.ecommerce.model.Pergunta;
 import com.zupacademy.gabrielbr.ecommerce.model.Produto;
 import com.zupacademy.gabrielbr.ecommerce.model.Usuario;
@@ -34,7 +34,7 @@ public class PerguntaController {
     }
 
     @PostMapping("produtos/{id}/perguntas")
-    public ResponseEntity<PerguntaResponse> cadastraPergunta(@PathVariable Long id, @RequestBody @Valid CadastraPerguntaRequest request) {
+    public ResponseEntity<CadastraPerguntaResponse> cadastraPergunta(@PathVariable Long id, @RequestBody @Valid CadastraPerguntaRequest request) {
         Optional<Produto> produtoObj = produtoRepository.findById(id);
         if(produtoObj.isPresent()) {
             Produto produto = produtoObj.get();
@@ -43,7 +43,7 @@ public class PerguntaController {
             perguntaRepository.save(pergunta);
             emails.enviaEmailNovaPergunta(pergunta);
 
-            return ResponseEntity.ok(new PerguntaResponse(pergunta));
+            return ResponseEntity.ok(new CadastraPerguntaResponse(pergunta));
         }
 
         return ResponseEntity.badRequest().build();

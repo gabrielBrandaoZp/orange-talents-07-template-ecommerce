@@ -4,12 +4,12 @@ import com.zupacademy.gabrielbr.ecommerce.model.Pergunta;
 
 import java.time.LocalDateTime;
 
-public class PerguntaResponse {
+public class CadastraPerguntaResponse {
 
     private String titulo;
     private LocalDateTime dataCriacao;
 
-    public PerguntaResponse(Pergunta pergunta) {
+    public CadastraPerguntaResponse(Pergunta pergunta) {
         this.titulo = pergunta.getTitulo();
         this.dataCriacao = pergunta.getDataCriacao();
     }
