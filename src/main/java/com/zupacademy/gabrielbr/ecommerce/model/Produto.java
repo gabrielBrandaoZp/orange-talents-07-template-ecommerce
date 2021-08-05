@@ -103,6 +103,15 @@ public class Produto {
                 .collect(Collectors.toCollection(() -> new TreeSet<>()));
     }
 
+    public boolean abateQuantidade(Integer quantidade) {
+        if(this.quantidade >= quantidade) {
+            this.quantidade -= quantidade;
+            return true;
+        }
+
+        return false;
+    }
+
     public String getNome() {
         return nome;
     }
