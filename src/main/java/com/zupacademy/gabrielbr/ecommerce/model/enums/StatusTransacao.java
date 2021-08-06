@@ -1,7 +1,7 @@
 package com.zupacademy.gabrielbr.ecommerce.model.enums;
 
-public enum StatusCompra {
+public enum StatusTransacao {
 
-    INICIADA,
-    FINALIZADA;
+    SUCESSO,
+    FALHA;
 }

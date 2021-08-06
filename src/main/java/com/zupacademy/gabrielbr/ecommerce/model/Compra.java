@@ -1,10 +1,15 @@
 package com.zupacademy.gabrielbr.ecommerce.model;
 
+import com.zupacademy.gabrielbr.ecommerce.controller.RetornoGatewayPagamento;
 import com.zupacademy.gabrielbr.ecommerce.model.enums.GatewayPagamento;
 import com.zupacademy.gabrielbr.ecommerce.model.enums.StatusCompra;
+import io.jsonwebtoken.lang.Assert;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 public class Compra {
@@ -24,6 +29,9 @@ public class Compra {
 
     @Enumerated(EnumType.STRING)
     private StatusCompra status;
+
+    @OneToMany(mappedBy = "compra", cascade = CascadeType.MERGE)
+    private Set<Transacao> transacoes = new HashSet<>();
 
     private BigDecimal precoUnitario;
 
@@ -55,5 +63,33 @@ public class Compra {
 
     public Produto getProduto() {
         return produto;
+    }
+
+    public StatusCompra getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusCompra status) {
+        this.status = status;
+    }
+
+    public void adicionaTransacao(RetornoGatewayPagamento request) {
+        Transacao novaTransacao = request.paraTransacao(this);
+        Assert.isTrue(!this.transacoes.contains(novaTransacao), "Já exista uma transacao igual a essa processada");
+
+        Assert.isTrue(transacoesConcluidasComSucesso().isEmpty(), "Essa compra já foi concluida com sucesso");
+
+        this.transacoes.add(novaTransacao);
+    }
+
+    public boolean processadaComSucesso() {
+        return !transacoesConcluidasComSucesso().isEmpty();
+    }
+
+    private Set<Transacao> transacoesConcluidasComSucesso() {
+        return this.transacoes
+                .stream()
+                .filter(Transacao::concluidaComSucesso)
+                .collect(Collectors.toSet());
     }
 }

@@ -42,6 +42,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                .antMatchers(HttpMethod.POST, "/notas-fiscais/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/ranking/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/produtos/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/usuarios/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/auth/**").permitAll()

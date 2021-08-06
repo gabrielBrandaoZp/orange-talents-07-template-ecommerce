@@ -1,23 +1,20 @@
 package com.zupacademy.gabrielbr.ecommerce.controller;
 
-import com.zupacademy.gabrielbr.ecommerce.controller.component.Emails;
+import com.zupacademy.gabrielbr.ecommerce.controller.component.service.Emails;
 import com.zupacademy.gabrielbr.ecommerce.controller.request.CadastraCompraRequest;
 import com.zupacademy.gabrielbr.ecommerce.model.Compra;
 import com.zupacademy.gabrielbr.ecommerce.model.Usuario;
+import com.zupacademy.gabrielbr.ecommerce.model.enums.GatewayPagamento;
 import com.zupacademy.gabrielbr.ecommerce.repository.CompraRepository;
 import com.zupacademy.gabrielbr.ecommerce.repository.ProdutoRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.Locale;
 import java.util.Optional;
 
 @RestController
@@ -42,11 +39,9 @@ public class CompraController {
             compraRepository.save(compra);
             emails.enviaEmailNovaCompra(compra);
 
-            String gateway = compra.getGateway().name().toLowerCase(Locale.ROOT);
-
-            String redirect = builder.path("/retorno-" + gateway + "/{id}").buildAndExpand(compra.getId()).toString();
-            URI uri = URI.create("https://" + gateway + ".com/?buyerId=" + compra.getId() + "&redirectUrl=" + redirect);
-
+            GatewayPagamento gateway = compra.getGateway();
+            String urlDoGateway = gateway.criaUrlRetorno(compra, builder);
+            URI uri = URI.create(urlDoGateway);
             return ResponseEntity.status(HttpStatus.FOUND).location(uri).build();
         }
 

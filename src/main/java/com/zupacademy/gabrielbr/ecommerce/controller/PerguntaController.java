@@ -1,6 +1,6 @@
 package com.zupacademy.gabrielbr.ecommerce.controller;
 
-import com.zupacademy.gabrielbr.ecommerce.controller.component.Emails;
+import com.zupacademy.gabrielbr.ecommerce.controller.component.service.Emails;
 import com.zupacademy.gabrielbr.ecommerce.controller.request.CadastraPerguntaRequest;
 import com.zupacademy.gabrielbr.ecommerce.controller.response.CadastraPerguntaResponse;
 import com.zupacademy.gabrielbr.ecommerce.model.Pergunta;
