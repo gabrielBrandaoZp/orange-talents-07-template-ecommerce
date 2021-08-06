@@ -18,18 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-
 public class FecharCompraController {
 
     private CompraRepository compraRepository;
-    private NotaFiscal notaFiscal;
-    private Ranking ranking;
     private EventosNovaCompra eventosNovaCompra;
 
-    public FecharCompraController(CompraRepository compraRepository, NotaFiscal notaFiscal, Ranking ranking, EventosNovaCompra eventosNovaCompra) {
+    public FecharCompraController(CompraRepository compraRepository, EventosNovaCompra eventosNovaCompra) {
         this.compraRepository = compraRepository;
-        this.notaFiscal = notaFiscal;
-        this.ranking = ranking;
         this.eventosNovaCompra = eventosNovaCompra;
     }
 

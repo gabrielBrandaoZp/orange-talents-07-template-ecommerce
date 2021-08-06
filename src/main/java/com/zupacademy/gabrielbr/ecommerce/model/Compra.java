@@ -77,6 +77,7 @@ public class Compra {
         Transacao novaTransacao = request.paraTransacao(this);
         Assert.isTrue(!this.transacoes.contains(novaTransacao), "Já exista uma transacao igual a essa processada");
 
+        // Pode ter várias transações associadas a uma compra, porém APENAS UMA pode ter o STATUS de SUCESSO
         Assert.isTrue(transacoesConcluidasComSucesso().isEmpty(), "Essa compra já foi concluida com sucesso");
 
         this.transacoes.add(novaTransacao);

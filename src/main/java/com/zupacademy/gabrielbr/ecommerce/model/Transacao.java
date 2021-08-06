@@ -25,7 +25,8 @@ public class Transacao {
     private LocalDateTime dataTransacao;
 
     @Deprecated
-    public Transacao() {}
+    public Transacao() {
+    }
 
     public Transacao(StatusTransacao status, String idTransacaoGateway, Compra compra) {
         this.idTransacaoGateway = idTransacaoGateway;
@@ -36,10 +37,6 @@ public class Transacao {
 
     public Long getId() {
         return id;
-    }
-
-    public StatusTransacao getStatusTransacao() {
-        return statusTransacao;
     }
 
     public boolean concluidaComSucesso() {
